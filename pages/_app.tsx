@@ -29,9 +29,14 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta property='og:description' content='Download wallpaper full hd' />
         <meta
           property='og:image'
-          content={process.env.NEXT_PUBLIC_MAIN_URL + 'images/logo.svg'}
+          content={process.env.NEXT_PUBLIC_MAIN_URL + 'images/logo.png'}
         />
 
+        <meta property='og:locale' content='id' />
+        <meta property='og:image:alt' content='logo' />
+        <meta property='og:image:type' content='png' />
+        <meta property='og:image:width' content='1200' />
+        <meta property='og:image:height' content='630' />
         <meta property='twitter:card' content='summary_large_image' />
         <meta
           property='twitter:url'
@@ -44,7 +49,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
         <meta
           property='twitter:image'
-          content={process.env.NEXT_PUBLIC_MAIN_URL + 'images/logo.svg'}
+          content={process.env.NEXT_PUBLIC_MAIN_URL + 'images/logo.png'}
         />
         <link rel='shortcut icon' href='/favicon.svg' type='image/x-icon' />
       </Head>

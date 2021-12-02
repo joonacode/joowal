@@ -46,7 +46,6 @@ const ListImage = ({
       });
   };
   const showModalDetail = (data: TImageItem) => {
-    console.log(data);
     let listSrc = [];
     for (let prop in data.resImage) {
       listSrc.push({
