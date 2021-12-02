@@ -1,10 +1,12 @@
-import { Button } from '@chakra-ui/button';
+import { IconButton } from '@chakra-ui/button';
 import { Image } from '@chakra-ui/image';
-import { Input, InputGroup, InputRightElement } from '@chakra-ui/input';
+import { Input, InputGroup } from '@chakra-ui/input';
 import { Box, Container, Flex } from '@chakra-ui/layout';
 import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { CloseIcon, SearchIcon } from '@chakra-ui/icons';
+import { SlideFade } from '@chakra-ui/transition';
 
 const Navbar = () => {
   const [inputSearch, setInputSearch] = useState('');
@@ -22,6 +24,8 @@ const Navbar = () => {
       );
     }
   };
+  const [showSearch, setShowSearch] = useState(false);
+  const toggleSearch = () => setShowSearch(!showSearch);
   return (
     <Box
       backgroundColor='#fff'
@@ -29,31 +33,39 @@ const Navbar = () => {
       position='sticky'
       top={0}
       shadow='sm'
-      py={5}
+      py={3}
     >
       <Container maxW={1280}>
-        <Flex alignItems='center'>
+        <Flex alignItems='center' justifyContent='space-between'>
           <Flex alignItems='center' marginRight={3}>
             <Link href='/'>
-              <Image w={150} src={'/images/logo.svg'} alt='logo' />
+              <a>
+                <Image w={120} src={'/images/logo.svg'} alt='logo' />
+              </a>
             </Link>
           </Flex>
-          <InputGroup size='md'>
-            <form style={{ width: '100%' }} onSubmit={handleSearch}>
-              <Input
-                value={inputSearch}
-                onChange={(e) => setInputSearch(e.target.value)}
-                pr='4.5rem'
-                type={'text'}
-                placeholder='Cari...'
-              />
-              <InputRightElement width='4.5rem'>
-                <Button type='button' h='1.75rem' size='sm'>
-                  Cari
-                </Button>
-              </InputRightElement>
-            </form>
-          </InputGroup>
+          <Flex alignItems='center'>
+            <SlideFade offsetY='20px' in={showSearch}>
+              <InputGroup>
+                <form style={{ width: '100%' }} onSubmit={handleSearch}>
+                  <Input
+                    value={inputSearch}
+                    onChange={(e) => setInputSearch(e.target.value)}
+                    pr='4.5rem'
+                    type={'text'}
+                    placeholder='Cari...'
+                  />
+                </form>
+              </InputGroup>
+            </SlideFade>
+            <IconButton
+              _focus={{ boxShadow: 'none' }}
+              ml={3}
+              onClick={toggleSearch}
+              aria-label='Search database'
+              icon={showSearch ? <CloseIcon /> : <SearchIcon />}
+            />
+          </Flex>
         </Flex>
       </Container>
     </Box>

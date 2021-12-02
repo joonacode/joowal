@@ -5,6 +5,8 @@ export interface TImageItem {
   photographer?: string;
   src?: string;
   isLoading?: boolean;
+  showModalDetail: () => void;
+  resImage: any;
 }
 export interface TListImage {
   col1: TImageItem[];

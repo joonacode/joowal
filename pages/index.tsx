@@ -1,57 +1,49 @@
 import { Box, Container } from '@chakra-ui/layout';
-import { GetServerSideProps, NextPage } from 'next';
 import React, { useEffect, useState } from 'react';
 import Api from '../apis/Api';
 import { Navbar } from '../components';
-import useSWR from 'swr';
 import ListImage from '../components/ListImage';
 import { TListImage } from '../types';
 import { useRouter } from 'next/router';
 import cookie from 'cookie';
 import Jscookie from 'js-cookie';
 
-const Home = ({ data, error }: { data: Object; error: boolean }) => {
+const Home = ({ data }: { data: Object }) => {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const initialValues = {
+  const [listImage, setListImage] = useState<TListImage>({
     col1: [],
     col2: [],
     col3: [],
-  };
-  const [listImage, setListImage] = useState<TListImage>(initialValues);
+  });
   const getData = async (listData: any) => {
-    try {
-      const data = listData?.photos
-        .filter((item: any) => item.src.original)
-        .map((value: any) => {
-          return {
-            ...value,
-            src: value.src.original,
-          };
-        });
-      const images = {
-        col1: data.slice(0, 10),
-        col2: data.slice(10, 20),
-        col3: data.slice(20, 30),
-      };
-      const prevCol1 = [...listImage.col1, ...images.col1];
-      const prevCol2 = [...listImage.col2, ...images.col2];
-      const prevCol3 = [...listImage.col3, ...images.col3];
-      const imagesData = {
-        col1: prevCol1,
-        col2: prevCol2,
-        col3: prevCol3,
-      };
-      setListImage(imagesData);
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
-      setLoading(false);
-    }
+    const data = listData?.photos
+      .filter((item: any) => item.src.original)
+      .map((value: any) => {
+        return {
+          ...value,
+          resImage: value.src,
+          src: value.src.original,
+        };
+      });
+    const images = {
+      col1: data.slice(0, 20),
+      col2: data.slice(20, 40),
+      col3: data.slice(40, 60),
+    };
+    const prevCol1 = [...listImage.col1, ...images.col1];
+    const prevCol2 = [...listImage.col2, ...images.col2];
+    const prevCol3 = [...listImage.col3, ...images.col3];
+    const imagesData = {
+      col1: prevCol1,
+      col2: prevCol2,
+      col3: prevCol3,
+    };
+    setListImage(imagesData);
   };
 
   useEffect(() => {
     if (data) {
+      localStorage.removeItem('chakra-ui-color-mode');
       getData(data);
     }
   }, [data]);
@@ -79,23 +71,20 @@ const Home = ({ data, error }: { data: Object; error: boolean }) => {
   };
 
   return (
-    <div>
-      <Navbar />
-      <Container maxW={1280} mt={30}>
-        {!data && !error && loading ? (
-          <ListImage isLoading />
-        ) : (
+    <>
+      <Box bg='#fafafa'>
+        <Navbar />
+        <Container maxW={1000} mt={30}>
           <ListImage fetchMoreData={fetchMoreData} listImage={listImage} />
-        )}
-      </Container>
-    </div>
+        </Container>
+      </Box>
+    </>
   );
 };
 
 export default Home;
 
 export async function getServerSideProps(context: any) {
-  const { page } = context.query;
   let parsedCookies: any = {
     page: null,
   };
@@ -107,14 +96,13 @@ export async function getServerSideProps(context: any) {
   if (pageCookie) {
     currentPage = pageCookie;
   }
-  const url = 'curated?per_page=30';
+  const url = 'curated?per_page=60';
   const products = await Api.get(`${url}&page=${currentPage || 1}`).then(
     (res) => res.data,
   );
   return {
     props: {
       data: products,
-      error: false,
     },
   };
 }

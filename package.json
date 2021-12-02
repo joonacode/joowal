@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^1.1.1",
     "@chakra-ui/react": "^1.6.8",
     "@dicebear/avatars": "^4.9.1",
     "@dicebear/micah": "^4.9.1",
@@ -25,7 +26,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-infinite-scroll-component": "^6.1.0",
-    "swr": "^1.0.1"
+    "sharp": "^0.29.3"
   },
   "devDependencies": {
     "@types/aos": "^3.0.4",
