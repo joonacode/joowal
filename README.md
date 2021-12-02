@@ -1,34 +1,73 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<p align="center">
+  <a href="https://github.com/joonacode/joowal">
+    <img src="screenshot.png" alt="screenshot">
+  </a>
 
+  <h1 align="center">Joowal</h3>
+Joowal merupkan website sederhana yang menampilkan list photo dengan fitur tambahan download & pencarian. Selain dari itu tujuan dari pembuatan website ini untuk mencoba menyembunyikan api key dari network tab tanpa menghilangkan fitur utama yaitu infinite scroll.
+<br/ >
+  <p align="center">
+    <br />
+    <a href="https://joowal.vercel.app/">View Demo</a>
+  </p>
+</p>
+
+### Built With
+
+* [Next JS](https://nextjs.org/)
+* [Chakra UI](https://chakra-ui.com/)
+* [React Infinite Scroll Component](https://www.npmjs.com/package/react-infinite-scroll-component)
+
+
+<!-- GETTING STARTED -->
 ## Getting Started
 
-First, run the development server:
+### Setup .env example
 
-```bash
-npm run dev
-# or
-yarn dev
+Create .env file in your root project folder.
+
+```
+NEXT_PUBLIC_API_KEY=api_key_pexels_kamu (https://www.pexels.com/api/documentation)
+NEXT_PUBLIC_MAIN_URL=http://localhost:3000/
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+1. Clone the repo
+```sh
+git clone https://github.com/joonacode/joowal.git
+```
+2. Install NPM packages
+```sh
+npm install or yarn install
+```
+3. Run project
+```sh
+npm run dev or yarn dev
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+<!-- CONTRIBUTING -->
+## Contributing
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-## Learn More
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<!-- CONTACT -->
+## Contact
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+joonacode@gmail.com
 
-## Deploy on Vercel
+Project Link: [https://github.com/joonacode/joowal](https://github.com/joonacode/joowal)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+<!-- ACKNOWLEDGEMENTS -->
+## Acknowledgements
+* [js-file-download](https://www.npmjs.com/package/js-file-download)
+* [js-cookie](https://www.npmjs.com/package/js-cookie)
