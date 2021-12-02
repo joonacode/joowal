@@ -28,6 +28,7 @@ const Search = ({ data, error }: { data: Object; error: boolean }) => {
       .map((value: any) => {
         return {
           ...value,
+          resImage: value.src,
           src: value.src.original,
         };
       });
