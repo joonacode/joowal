@@ -103,7 +103,7 @@ const Search = ({ data, error }: { data: Object; error: boolean }) => {
   return (
     <div>
       <Navbar />
-      <Container maxW={1000} mt={30}>
+      <Container maxW={1000} mt={30} mx='auto'>
         {isNotFound ? (
           <Box
             minH={500}

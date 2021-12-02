@@ -74,7 +74,7 @@ const Home = ({ data }: { data: Object }) => {
     <>
       <Box bg='#fafafa'>
         <Navbar />
-        <Container maxW={1000} mt={30}>
+        <Container maxW={1000} mt={30} mx='auto'>
           <ListImage fetchMoreData={fetchMoreData} listImage={listImage} />
         </Container>
       </Box>

@@ -35,7 +35,7 @@ const Navbar = () => {
       shadow='sm'
       py={3}
     >
-      <Container maxW={1280}>
+      <Container maxW={1280} mx='auto'>
         <Flex alignItems='center' justifyContent='space-between'>
           <Flex alignItems='center' marginRight={3}>
             <Link href='/'>

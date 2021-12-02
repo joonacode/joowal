@@ -9,6 +9,7 @@ import Image from 'next/image';
 import fileDownload from 'js-file-download';
 import axios from 'axios';
 import Link from 'next/link';
+import { Progress } from '@chakra-ui/progress';
 
 import {
   Modal,
@@ -36,13 +37,18 @@ const ListImage = ({
     status: false,
     data: {},
   });
+  const [downloadProgress, setDownloadProgress] = useState(0);
   const download = (url: string, filename: string) => {
     axios
       .get(url, {
         responseType: 'blob',
+        onDownloadProgress: (evt) => {
+          setDownloadProgress((evt.loaded / evt.total) * 100);
+        },
       })
       .then((res) => {
         fileDownload(res.data, filename);
+        setDownloadProgress(0);
       });
   };
   const showModalDetail = (data: TImageItem) => {
@@ -202,11 +208,27 @@ const ListImage = ({
                     colorScheme='teal'
                     variant='solid'
                     m={1}
+                    isDisabled={downloadProgress > 0}
                     onClick={() => download(item.value, item.value + '.jpg')}
                   >
                     {item.key}
                   </Button>
                 ),
+              )}
+              {downloadProgress > 0 && (
+                <>
+                  <Text mt={3}>
+                    Downloading {Math.floor(downloadProgress)}%
+                  </Text>
+
+                  <Progress
+                    mt={2}
+                    height={'4px'}
+                    isAnimated
+                    hasStripe
+                    value={downloadProgress}
+                  />
+                </>
               )}
             </ModalBody>
           </ModalContent>
