@@ -8,7 +8,7 @@ Joowal merupkan website sederhana yang menampilkan list photo dengan fitur tamba
 <br/ >
   <p align="center">
     <br />
-    <a href="https://joowal.vercel.app/">View Demo</a>
+    <a href="https://joowal.joonacode.com">View Demo</a>
   </p>
 </p>
 
