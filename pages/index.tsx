@@ -1,4 +1,4 @@
-import { Box, Container } from '@chakra-ui/layout';
+import { Box, Container, Heading } from '@chakra-ui/layout';
 import React, { useEffect, useState } from 'react';
 import Api from '../apis/Api';
 import { Navbar } from '../components';
@@ -8,7 +8,15 @@ import { useRouter } from 'next/router';
 import cookie from 'cookie';
 import Jscookie from 'js-cookie';
 
-const Home = ({ data }: { data: Object }) => {
+type Props = {
+  next_page: string
+  page: number
+  photos: any[]
+  prev_page: string
+  total_results: number
+}
+
+const Home = ({ data  }: { data: Props }) => {
   const router = useRouter();
   const [listImage, setListImage] = useState<TListImage>({
     col1: [],
@@ -42,7 +50,7 @@ const Home = ({ data }: { data: Object }) => {
   };
 
   useEffect(() => {
-    if (data) {
+    if (data && data.photos.length) {
       localStorage.removeItem('chakra-ui-color-mode');
       getData(data);
     }
@@ -72,10 +80,23 @@ const Home = ({ data }: { data: Object }) => {
 
   return (
     <>
-      <Box bg='#fafafa'>
+      <Box bg={'#fafafa'}>
         <Navbar />
         <Container maxW={1000} mt={30} mx='auto'>
-          <ListImage fetchMoreData={fetchMoreData} listImage={listImage} />
+          {data.photos.length ? (
+            <ListImage fetchMoreData={fetchMoreData} listImage={listImage} />
+          ) : (
+            <Box
+              w='full'
+              h='100vh'
+              display='flex'
+              justifyContent='center'
+              alignItems='center'
+              mt={-24}
+            >
+              <Heading>Data Not Found</Heading>
+            </Box>
+          )}
         </Container>
       </Box>
     </>
@@ -97,12 +118,24 @@ export async function getServerSideProps(context: any) {
     currentPage = pageCookie;
   }
   const url = 'curated?per_page=60';
-  const products = await Api.get(`${url}&page=${currentPage || 1}`).then(
-    (res) => res.data,
-  );
-  return {
-    props: {
-      data: products,
-    },
-  };
+  try {
+    const products = await Api.get(`${url}&page=${currentPage || 1}`).then(
+      (res) => res.data,
+    );
+    return {
+      props: {
+        data: products,
+      },
+    };
+  } catch (err) {
+    return {
+      props: {
+        data: {
+          photos: []
+        },
+      },
+    };
+
+  }
+
 }

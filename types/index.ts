@@ -3,7 +3,12 @@ export interface TImageItem {
   height: number;
   width?: number;
   photographer?: string;
+  photographer_url?: string;
   src?: string;
+  listSrc?: {
+    key: string
+    value: string
+  }[]
   isLoading?: boolean;
   showModalDetail: () => void;
   resImage: any;

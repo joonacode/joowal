@@ -1,5 +1,5 @@
 import { IconButton } from '@chakra-ui/button';
-import { Image } from '@chakra-ui/image';
+import Image from 'next/image';
 import { Input, InputGroup } from '@chakra-ui/input';
 import { Box, Container, Flex } from '@chakra-ui/layout';
 import { useRouter } from 'next/router';
@@ -26,9 +26,11 @@ const Navbar = () => {
   };
   const [showSearch, setShowSearch] = useState(false);
   const toggleSearch = () => setShowSearch(!showSearch);
+
+
   return (
     <Box
-      backgroundColor='#fff'
+      backgroundColor={'white'}
       zIndex={5}
       position='sticky'
       top={0}
@@ -39,9 +41,9 @@ const Navbar = () => {
         <Flex alignItems='center' justifyContent='space-between'>
           <Flex alignItems='center' marginRight={3}>
             <Link href='/'>
-              <a>
-                <Image w={120} src={'/images/logo.svg'} alt='logo' />
-              </a>
+              <Image width={0} height={0} src={'/images/logo.svg'}  alt='logo'
+                style={{ width: '120px', height: 'auto' }}
+              />
             </Link>
           </Flex>
           <Flex alignItems='center'>
@@ -58,6 +60,7 @@ const Navbar = () => {
                 </form>
               </InputGroup>
             </SlideFade>
+
             <IconButton
               _focus={{ boxShadow: 'none' }}
               ml={3}

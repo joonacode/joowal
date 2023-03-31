@@ -5,9 +5,14 @@ import Image from 'next/image';
 import { TImageItem } from '../types';
 import { useDisclosure } from '@chakra-ui/hooks';
 
-function ImageItem({ item, showModalDetail }: any) {
-  const { isOpen, onClose, onOpen } = useDisclosure();
+type ImageItemProps = {
+  item: any
+  showModalDetail?: (item: TImageItem) => void
+  isDetail?: boolean
+}
 
+function ImageItem({ item, showModalDetail, isDetail = false }: ImageItemProps) {
+  const { isOpen, onClose, onOpen } = useDisclosure();
   if (item.isLoading) {
     return (
       <Box
@@ -20,6 +25,28 @@ function ImageItem({ item, showModalDetail }: any) {
         backgroundColor={item.avg_color}
         h={item.height}
       ></Box>
+    );
+  }
+
+  if (isDetail) {
+    return (
+      <Box
+        shadow='2xl'
+        position='relative'
+        mb={{ base: '10px', md: '15px' }}
+        borderRadius={8}
+        overflow='hidden'
+        backgroundColor={item.avg_color}
+        h='auto'
+      >
+        <Image
+          height={item.height}
+          width={item.width}
+          src={item.src + '?auto=compress&cs=tinysrgb&dpr=1&w=500'}
+          alt={item.photographer}
+          quality={90}
+        />
+      </Box>
     );
   }
   return (
@@ -37,14 +64,14 @@ function ImageItem({ item, showModalDetail }: any) {
       backgroundColor={item.avg_color}
       h='auto'
       // onClick={() => download(src || '', src + '.jpg')}
-      onClick={() => showModalDetail(item)}
+      onClick={() => showModalDetail && showModalDetail(item)}
     >
       <Image
-        layout='responsive'
         height={item.height}
         width={item.width}
         src={item.src + '?auto=compress&cs=tinysrgb&dpr=1&w=500'}
         alt={item.photographer}
+        quality={50}
       />
       <Box position='absolute' bottom={0} left={0} right={0} w='full'>
         <Slide style={{ position: 'absolute' }} direction='bottom' in={isOpen}>
@@ -64,7 +91,6 @@ function ImageItem({ item, showModalDetail }: any) {
               >
                 <Image
                   src={`https://avatars.dicebear.com/api/jdenticon/${item.photographer}.svg`}
-                  layout='responsive'
                   height={20}
                   width={20}
                   alt={item.photographer}
@@ -78,7 +104,7 @@ function ImageItem({ item, showModalDetail }: any) {
         </Slide>
       </Box>
     </Box>
-  );
+  )
 }
 
 export default ImageItem;

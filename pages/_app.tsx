@@ -4,14 +4,17 @@ import 'aos/dist/aos.css';
 import AOS from 'aos';
 import { useEffect } from 'react';
 import Head from 'next/head';
+
+
 function MyApp({ Component, pageProps }: AppProps) {
+
   useEffect(() => {
     AOS.init({
       duration: 2000,
     });
   }, []);
   return (
-    <ChakraProvider>
+    <>
       <Head>
         <title>Joowal - Joona Wallpaper</title>
         <meta name='title' content='Joona Wallpaper' />
@@ -53,8 +56,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         />
         <link rel='shortcut icon' href='/favicon.svg' type='image/x-icon' />
       </Head>
-      <Component {...pageProps} />
-    </ChakraProvider>
+      <ChakraProvider>
+        <Component {...pageProps} />
+      </ChakraProvider>
+    </>
   );
 }
 export default MyApp;

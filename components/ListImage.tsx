@@ -1,26 +1,11 @@
-import { Box, Flex, Grid, Text } from '@chakra-ui/layout';
+import { Box, Grid } from '@chakra-ui/layout';
 import React, { useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import useWindowSize from '../hooks/useWindowSize';
 import { TImageItem, TListImage } from '../types';
 import ImageItem from './ImageItem';
 import { Spinner } from '@chakra-ui/react';
-import Image from 'next/image';
-import fileDownload from 'js-file-download';
-import axios from 'axios';
-import Link from 'next/link';
-import { Progress } from '@chakra-ui/progress';
-
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
-  Button,
-} from '@chakra-ui/react';
-import { DownloadIcon } from '@chakra-ui/icons';
+import ModalDetail from './ModalDetail';
 type TProps = {
   listImage?: TListImage;
   fetchMoreData?: () => void;
@@ -33,24 +18,10 @@ const ListImage = ({
 }: TProps) => {
   const { width } = useWindowSize();
 
-  const [modalDetail, setModalDetail] = useState<any>({
+  const [modalDetail, setModalDetail] = useState<{ status: boolean, data?: TImageItem }>({
     status: false,
-    data: {},
+    data: undefined,
   });
-  const [downloadProgress, setDownloadProgress] = useState(0);
-  const download = (url: string, filename: string) => {
-    axios
-      .get(url, {
-        responseType: 'blob',
-        onDownloadProgress: (evt) => {
-          setDownloadProgress((evt.loaded / evt.total) * 100);
-        },
-      })
-      .then((res) => {
-        fileDownload(res.data, filename);
-        setDownloadProgress(0);
-      });
-  };
   const showModalDetail = (data: TImageItem) => {
     let listSrc = [];
     for (let prop in data.resImage) {
@@ -76,11 +47,11 @@ const ListImage = ({
         loader={
           <Box
             w='full'
+            h='100vh'
             display='flex'
             justifyContent='center'
             alignItems='center'
-            mt={14}
-            mb={10}
+            mt={-24}
           >
             <Spinner mx='auto' size='xl' />
           </Box>
@@ -166,74 +137,11 @@ const ListImage = ({
           </Grid>
         )}
       </InfiniteScroll>
-      {modalDetail.status && (
-        <Modal
-          isCentered
-          isOpen={modalDetail.status}
-          onClose={() => setModalDetail({ ...modalDetail, status: false })}
-        >
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Download</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody pb={6}>
-              <Link href={`${modalDetail.data.photographer_url}`}>
-                <a target='_blank'>
-                  <Flex alignItems='center' direction='row' mb={3}>
-                    <Text mr={2}>Image By</Text>
-                    <Box
-                      height={'20px'}
-                      width={'20px'}
-                      rounded='full'
-                      overflow='hidden'
-                    >
-                      <Image
-                        src={`https://avatars.dicebear.com/api/jdenticon/${modalDetail.data.photographer}.svg`}
-                        layout='responsive'
-                        height={20}
-                        width={20}
-                        alt={modalDetail.data.photographer}
-                      />
-                    </Box>
-                    <Text ml='8px'>{modalDetail.data.photographer}</Text>
-                  </Flex>
-                </a>
-              </Link>
-              {modalDetail.data.listSrc.map(
-                (item: { value: string; key: string }, i: number) => (
-                  <Button
-                    shadow='md'
-                    key={i}
-                    leftIcon={<DownloadIcon />}
-                    colorScheme='teal'
-                    variant='solid'
-                    m={1}
-                    isDisabled={downloadProgress > 0}
-                    onClick={() => download(item.value, item.value + '.jpg')}
-                  >
-                    {item.key}
-                  </Button>
-                ),
-              )}
-              {downloadProgress > 0 && (
-                <>
-                  <Text mt={3}>
-                    Downloading {Math.floor(downloadProgress)}%
-                  </Text>
-
-                  <Progress
-                    mt={2}
-                    height={'4px'}
-                    isAnimated
-                    hasStripe
-                    value={downloadProgress}
-                  />
-                </>
-              )}
-            </ModalBody>
-          </ModalContent>
-        </Modal>
-      )}
+      <ModalDetail
+        status={modalDetail.status}
+        data={modalDetail.data}
+        onClose={() => setModalDetail({ ...modalDetail, status: false })}
+      />
     </>
   );
 };
